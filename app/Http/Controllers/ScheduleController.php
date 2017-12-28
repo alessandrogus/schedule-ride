@@ -15,6 +15,8 @@ class ScheduleController extends Controller
     public function index()
     {
         //
+        $schedules = Schedule::all();
+        return view ('schedule.index', compact('schedules'));
     }
 
     /**
@@ -24,7 +26,7 @@ class ScheduleController extends Controller
      */
     public function create()
     {
-        //
+        return view ('schedule.create');
     }
 
     /**
@@ -35,7 +37,14 @@ class ScheduleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $schedule = new Schedule();
+        $data = $this->validate($request, [
+            'local' => 'required',
+            'go_at' => 'required'
+        ]);
+
+        $schedule->saveSchedule($data);
+        return redirect('/schedule')->with('success', 'Novo agendamento cadastrado com sucesso!');
     }
 
     /**
